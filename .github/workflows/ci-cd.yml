@@ -28,7 +28,7 @@ jobs:
         run: npm test
 
       - name: Build Docker image
-        run: docker build -t my-app:latest .
+        run: docker build -t my-app:latest server/
 
       - name: Run Docker container to test
         run: docker run --rm -p 5000:5000 my-app:latest echo "Docker container built successfully"
