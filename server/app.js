@@ -109,5 +109,5 @@ app.post("/logout", (req, res) => {
   res.json({ message: "Logged out" });
 });
 
-// -------------------
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
