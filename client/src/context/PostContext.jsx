@@ -1,16 +1,22 @@
-// src/context/PostContext.jsx
 import { createContext } from "react";
 import axiosInstance from "../axiosInstance";
 
 export const PostContext = createContext();
 
-export const PostProvider = ({ children }) => {
-  const createPost = async (title, content, authorId) => {
+export function PostProvider({ children }) {
+
+  const createPost = async (title, content) => {
     try {
-      const res = await axiosInstance.post("/posts", { title, content, authorId });
+      const res = await axiosInstance.post(
+        "/posts",
+        { title, content },
+      );
+
       return res.data;
     } catch (err) {
-      throw new Error(err.response?.data?.message || "Failed to create post");
+      throw new Error(
+        err.response?.data?.message || "Failed to create post"
+      );
     }
   };
 
@@ -19,4 +25,4 @@ export const PostProvider = ({ children }) => {
       {children}
     </PostContext.Provider>
   );
-};
+}

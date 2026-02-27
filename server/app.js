@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 import postRoutes from "./routes/postRoutes.js";
@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 // -------------------
 app.post("/signup", async (req, res) => {
   const { email, username, password } = req.body;
+  console.log(req.body);
   if (!email || !username || !password) return res.status(400).json({ message: "All fields required" });
 
   const hashed = await bcrypt.hash(password, 10);
@@ -84,12 +85,13 @@ app.post("/login", async (req, res) => {
 app.get("/profile", async (req, res) => {
   try {
     const token = req.cookies.jwt;
+    console.log("Cookies:", req.cookies);
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      include: { profile: true }
+      include: { profile: true },
     });
     if (!user) return res.status(404).json({ message: "User not found" });
 

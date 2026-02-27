@@ -9,7 +9,7 @@ export const createPost = async (req, res) => {
       data: {
         title,
         content,
-        authorId: req.user.id // assuming you store user in req.user from auth middleware
+        authorId: req.userId // assuming you store user in req.user from auth middleware
       }
     });
 

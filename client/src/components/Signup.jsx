@@ -9,13 +9,14 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignup = async (req, res) => {
+  const handleSignup = async (e) => {
+    e.preventDefault(); // prevent page reload
+  
     try {
       await signup(email, username, password);
       alert("Signup successful!");
-      navigate('/login');
+      navigate("/login");
       setEmail(""); setUsername(""); setPassword("");
-      
     } catch (err) {
       alert(err.message);
     }

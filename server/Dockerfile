@@ -1,9 +1,18 @@
-# Stage 1: Build
-FROM node:18-alpine AS build
+# Use Node 18 Debian-based image
+FROM node:18
+
 WORKDIR /app
+
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm ci
+
+# Copy Prisma and generate client
 COPY prisma ./prisma
-COPY *.js ./
 RUN npx prisma generate
+
+# Copy all other files
+COPY . .
+
+EXPOSE 5000
 CMD ["node", "app.js"]

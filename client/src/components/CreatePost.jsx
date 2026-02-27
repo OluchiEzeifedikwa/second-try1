@@ -1,12 +1,16 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { PostContext } from "../context/PostContext.jsx";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function CreatePost() {
   const { user } = useContext(AuthContext);
   const { createPost } = useContext(PostContext);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,8 +18,9 @@ export default function CreatePost() {
     if (!user) return alert("You must be logged in to create a post!");
 
     try {
-      await createPost(title, content, user.id);
+      await createPost(title, content);
       alert("Post created!");
+      navigate('/profile');
       setTitle("");
       setContent("");
     } catch (err) {
